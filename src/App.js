@@ -1,4 +1,5 @@
 const { Console, Random } = require("@woowacourse/mission-utils");
+
 const {
   INPUT_ERROR_MESSAGE,
   RESTART_MESSAGE,
@@ -35,48 +36,39 @@ class App {
     Console.print(message);
   }
 
-  refNumbersArrayGetter() {
-    const refNumbers = [];
+  refNumbersGetter() {
+    let refNumbers = "";
 
     while (refNumbers.length < 3) {
       const targetNumber = Random.pickNumberInRange(1, 9);
       if (!refNumbers.includes(targetNumber)) {
-        refNumbers.push(targetNumber);
+        refNumbers = refNumbers + targetNumber;
       }
     }
 
     return refNumbers;
   }
 
-  stringToNumberArrayConverter(numbersString) {
-    const numbersStringArray = numbersString.split("");
-    const numbersNumberArray = numbersStringArray.map((number) =>
-      Number(number)
-    );
-    return numbersNumberArray;
-  }
-
-  strikeCounter(userNumbersArray, refNumbersArray) {
+  strikeCounter(userNumbers, refNumbers) {
     let strikeCount = 0;
 
-    userNumbersArray.map((userNumber, index) => {
+    for (let i = 0; i < 3; i++) {
       strikeCount =
-        userNumber === refNumbersArray[index] ? strikeCount + 1 : strikeCount;
-    });
+        refNumbers[i] === userNumbers[i] ? strikeCount + 1 : strikeCount;
+    }
 
     return strikeCount;
   }
 
-  ballCounter(userNumbersArray, refNumbersArray) {
+  ballCounter(userNumbers, refNumbers) {
     let ballCount = 0;
 
-    userNumbersArray.map((userNumber, index) => {
+    for (let i = 0; i < 3; i++) {
       ballCount =
-        refNumbersArray.indexOf(userNumber) !== index &&
-        refNumbersArray.includes(userNumber)
+        refNumbers[i] !== userNumbers[i] && refNumbers.includes(userNumbers[i])
           ? ballCount + 1
           : ballCount;
-    });
+    }
 
     return ballCount;
   }
@@ -105,8 +97,8 @@ class App {
   reStartSelector() {
     Console.readLine(RESTART_MESSAGE.QUESTION, (answer) => {
       if (answer.trim() === "1") {
-        const newRefNumbersArray = this.refNumbersArrayGetter();
-        this.gameStarter(newRefNumbersArray);
+        const newRefNumbers = this.refNumbersGetter();
+        this.gameStarter(newRefNumbers);
       } else if (answer.trim() === "2") {
         Console.close();
       } else {
@@ -115,18 +107,17 @@ class App {
     });
   }
 
-  gameStarter(refNumbersArray) {
+  gameStarter(refNumbers) {
     Console.readLine(BASE_MESSAGE.INPUT_REQUEST, (answer) => {
-      const usersInput = answer.trim();
-      this.totalUserInputErrorChecker(usersInput);
-      const userNumbersArray = this.stringToNumberArrayConverter(usersInput);
-      const strikeCount = this.strikeCounter(userNumbersArray, refNumbersArray);
-      const ballCount = this.ballCounter(userNumbersArray, refNumbersArray);
+      const userNumbers = answer.trim();
+      this.totalUserInputErrorChecker(userNumbers);
+      const strikeCount = this.strikeCounter(userNumbers, refNumbers);
+      const ballCount = this.ballCounter(userNumbers, refNumbers);
       const discrimination = this.discriminator(strikeCount, ballCount);
       this.consolePrinter(discrimination);
 
       if (discrimination !== JUDGE_MESSAGE.THREE_STRIKE) {
-        this.gameStarter(refNumbersArray);
+        this.gameStarter(refNumbers);
       } else if (discrimination === JUDGE_MESSAGE.THREE_STRIKE) {
         this.consolePrinter(BASE_MESSAGE.END);
         this.reStartSelector();
@@ -136,8 +127,8 @@ class App {
 
   play() {
     this.consolePrinter(BASE_MESSAGE.START);
-    const refNumbersArray = this.refNumbersArrayGetter();
-    this.gameStarter(refNumbersArray);
+    const refNumbers = this.refNumbersGetter();
+    this.gameStarter(refNumbers);
   }
 }
 

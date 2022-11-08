@@ -31,54 +31,48 @@ describe("숫자 야구 게임 시작 문구", () => {
 
 describe("목표값 테스트", () => {
   test("목표값 개수", () => {
-    const refNumbersArray = app.refNumbersArrayGetter();
-    expect(refNumbersArray.length).toEqual(3);
+    const refNumbers = app.refNumbersGetter();
+    expect(refNumbers.length).toEqual(3);
   });
 
   test("목표값 내 중복 확인", () => {
-    const refNumbersArray = app.refNumbersArrayGetter();
+    const refNumbers = app.refNumbersGetter();
 
     let duplicateChecker;
-    refNumbersArray.map((number, index) => {
+
+    for (let i = 0; i < 3; i++) {
       duplicateChecker =
-        refNumbersArray.indexOf(number) === index ? "clear" : "duplicate";
-    });
+        refNumbers.indexOf(refNumbers[i]) === i ? "clear" : "duplicate";
+    }
+
     expect(duplicateChecker).toEqual("clear");
   });
 
   test("목표값 숫자 범위 1~9 확인", () => {
-    const refNumbersArray = app.refNumbersArrayGetter();
+    const refNumbers = app.refNumbersGetter();
 
-    let rangeChecker;
-    refNumbersArray.map((number, index) => {
+    let duplicateChecker;
+
+    for (let i = 0; i < 3; i++) {
       rangeChecker =
-        Number.isInteger(number) && number < 10 && number > 0
-          ? "clear"
-          : "rangeOver";
-    });
+        refNumbers[i] < 10 && refNumbers[i] > 0 ? "clear" : "rangeOver";
+    }
     expect(rangeChecker).toEqual("clear");
-  });
-});
-
-describe("입력값 배열화 테스트", () => {
-  test("입력값 배열화", () => {
-    const userInput = "123";
-    expect(app.stringToNumberArrayConverter(userInput)).toEqual([1, 2, 3]);
   });
 });
 
 describe("판정 테스트", () => {
   test("스트라이크 카운터 테스트", () => {
     const strikeTestExamples = [
-      [[1, 2, 3], [1, 2, 3], 3],
-      [[1, 2, 3], [1, 2, 4], 2],
-      [[1, 2, 3], [1, 4, 5], 1],
-      [[1, 2, 3], [3, 1, 2], 0],
-      [[1, 2, 3], [4, 1, 2], 0],
-      [[1, 2, 3], [4, 5, 2], 0],
-      [[1, 2, 3], [4, 5, 6], 0],
-      [[1, 2, 3], [3, 2, 1], 1],
-      [[1, 2, 3], [5, 1, 3], 1],
+      ["123", "123", 3],
+      ["123", "124", 2],
+      ["123", "145", 1],
+      ["123", "312", 0],
+      ["123", "412", 0],
+      ["123", "452", 0],
+      ["123", "456", 0],
+      ["123", "321", 1],
+      ["123", "513", 1],
     ];
 
     strikeTestExamples.map((example) => {
@@ -88,15 +82,15 @@ describe("판정 테스트", () => {
 
   test("볼 카운터 테스트", () => {
     const ballTestExamples = [
-      [[1, 2, 3], [1, 2, 3], 0],
-      [[1, 2, 3], [1, 2, 4], 0],
-      [[1, 2, 3], [1, 4, 5], 0],
-      [[1, 2, 3], [3, 1, 2], 3],
-      [[1, 2, 3], [4, 1, 2], 2],
-      [[1, 2, 3], [4, 5, 2], 1],
-      [[1, 2, 3], [4, 5, 6], 0],
-      [[1, 2, 3], [3, 2, 1], 2],
-      [[1, 2, 3], [5, 1, 3], 1],
+      ["123", "123", 0],
+      ["123", "124", 0],
+      ["123", "145", 0],
+      ["123", "312", 3],
+      ["123", "412", 2],
+      ["123", "452", 1],
+      ["123", "456", 0],
+      ["123", "321", 2],
+      ["123", "513", 1],
     ];
 
     ballTestExamples.map((example) => {

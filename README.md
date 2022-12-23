@@ -34,4 +34,4 @@
 10. 잘못된 값 입력한 경우 throw문으로 예외 발생 후 어플리케이션 종료
 
 ## 후기
-<a href='https://velog.io/@hoon0123/%EC%9A%B0%ED%85%8C%EC%BD%94-5%EA%B8%B0-%ED%94%84%EB%A6%AC%EC%BD%94%EC%8A%A4-2%EC%A3%BC%EC%B0%A8-%ED%9A%8C%EA%B3%A0'>후기링크</a>
+[![Velog's GitHub stats](https://velog-readme-stats.vercel.app/api?name=hoon0123&slug=우테코-5기-프리코스-2주차-회고&color=dark)](https://velog.io/@hoon0123/%EC%9A%B0%ED%85%8C%EC%BD%94-5%EA%B8%B0-%ED%94%84%EB%A6%AC%EC%BD%94%EC%8A%A4-2%EC%A3%BC%EC%B0%A8-%ED%9A%8C%EA%B3%A0)
